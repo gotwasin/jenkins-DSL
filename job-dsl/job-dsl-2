@@ -13,6 +13,8 @@ def targetJobs = [
 
 def mainPath = 'next/Java-backend'
 def template = jenkins.getItemByFullName('next/Java-backend/channel-api/mobile-audit')
+println "Created ${tarGetJob}"
+
 targetJobs.each { j ->
     def jobGroup = j.split('/')[0]
     def jobName = j.split('/')[-1]
