@@ -62,7 +62,7 @@ projectFolders.each { projectFolderMap ->
         def temp = jenkins.getItemByFullName(repositoryName)
         
         println "Created ${projectFolder}/${job}"
-        
+        Items.move(temp, targetPath)
         subJobs.each { subJob ->
           println "subJob : ${subJob}"
           def tempSubJobPath = "${projectName}/${environment}/${mainFolder}/${serviceType}/${repositoryName}/${subJob}"
