@@ -61,7 +61,7 @@ projectFolders.each { projectFolderMap ->
          
         jenkins.copy(template, repositoryName)
         def temp = jenkins.getItemByFullName(repositoryName)
-        Items.move(temp, targetPath)
+        
         println "Created ${projectFolder}/${job}"
         
         subJobs.each { subJob ->
