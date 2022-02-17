@@ -51,14 +51,13 @@ projectFolders.each { projectFolderMap ->
       def repositoryName = job.split('/')[-1]
       println "Start Job :  ${mainFolder}/${serviceType}/${repositoryName}"
       
-      def template = jenkins.getItemByFullName("${projectName}/template-${environment}/Build-Deploy")
+      def template = jenkins.getItemByFullName("${projectName}/template-${environment}/Build-Deploy/pipeline-template")
       println "template : ${template}"
       
       def targetPath = jenkins.getItemByFullName("${projectName}/${environment}/${mainFolder}/${serviceType}")
       println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
     
       try {
-         
         jenkins.copy(template, repositoryName)
         def temp = jenkins.getItemByFullName(repositoryName)
         
