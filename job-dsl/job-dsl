@@ -51,7 +51,7 @@ projectFolders.each { projectFolderMap ->
       def repositoryName = job.split('/')[-1]
       println "Start Job :  ${mainFolder}/${serviceType}/${repositoryName}"
       
-      def template = jenkins.getItemByFullName("${projectName}/template-${environment}/Build-Deploy/pipeline-template")
+      def template = jenkins.getItemByFullName("${projectName}/template-${environment}/pipeline-template")
       println "template : ${template}"
       
       def targetPath = jenkins.getItemByFullName("${projectName}/${environment}/${mainFolder}/${serviceType}")
@@ -62,7 +62,9 @@ projectFolders.each { projectFolderMap ->
         def temp = jenkins.getItemByFullName(repositoryName)
         Items.move(temp, targetPath)
         println "Created ${projectFolder}/${job}"
-        targetPath.save()
+        def tempSubJob = jenkins.getItemByFullName(targetPath)
+        tempSubJob.save()
+        println "Saved subJob parameter : ${targetPath}"  
         
       } catch (Exception err) {
         
