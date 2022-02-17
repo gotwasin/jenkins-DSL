@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     sh 'ls'
-                    def inputFile = readFile 'job-dsl/job-dsl-2'
+                    def inputFile = readFile 'job-dsl/job-dsl'
                     jobDsl scriptText: inputFile         
                 }
             }
