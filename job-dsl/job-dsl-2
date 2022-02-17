@@ -1,0 +1,22 @@
+import jenkins.*
+import jenkins.model.*
+import hudson.*
+import hudson.model.*
+
+def targetJobs = [
+  'channel-api/mobile-applications',
+  'channel-api/mobile-audit',
+  'channel-api/mobile-auth',
+  'channel-api/mobile-campaign',
+  'channel-api/mobile-cardless'
+]
+
+def mainPath = 'next/Java-backend'
+def template = jenkins.getItemByFullName('next/Java-backend/channel-api/mobile-audit')
+targetJobs.each { j ->
+    def jobGroup = j.split('/')[0]
+    def jobName = j.split('/')[-1]
+    def tarGetJob = mainPath + '/' + jobGroup + Jobname
+    jenkins.copy(template, tarGetJob)
+    println "Created ${tarGetJob}"
+}
