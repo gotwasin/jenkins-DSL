@@ -12,7 +12,7 @@ def targetJobs = [
 ]
 
 def mainPath = 'next/Java-backend'
-def template = jenkins.getItemByFullName('next/Java-backend/channel-api/mobile-audit')
+def template = jenkins.getItemByFullName('next/Java-backend/channel-api')
 println "Created ${tarGetJob}"
 
 targetJobs.each { j ->
