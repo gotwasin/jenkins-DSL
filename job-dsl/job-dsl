@@ -37,8 +37,8 @@ projectFolders.each { projectFolderMap ->
   println "enviroment : ${environment}"
   println "Subjob :  ${subJobs}"
 
-  def existingJobs = allJobs.findAll { job -> job.contains(projectFolder) }
-  def existingItems = allItems.findAll { job -> job.contains(projectFolder)}
+  def existingJobs = allJobs.findAll { job -> job.contains(projectName) }
+  def existingItems = allItems.findAll { job -> job.contains(projectName)}
   println "existingJobs :  ${existingJobs}"
   println "existingItems :  ${existingItems}"
   
