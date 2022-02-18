@@ -3,8 +3,7 @@ import jenkins.model.*
 import hudson.*
 import hudson.model.*
 
-def projectName = next
-def env = [dev.sit,uat]
+def projectName = 'next'
 def projectFolders = [
   	'dev' : ['Build-Deploy'],
     'sit' : ['Build','Deploy'],
