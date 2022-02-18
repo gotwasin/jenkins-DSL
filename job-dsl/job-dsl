@@ -3,8 +3,12 @@ import jenkins.model.*
 import hudson.*
 import hudson.model.*
 
+def projectName = next
+def env = [dev.sit,uat]
 def projectFolders = [
-  	'next-dev' : ['Build-Deploy'],
+  	'dev' : ['Build-Deploy'],
+    'sit' : ['Build','Deploy'],
+    'uat' : ['Deploy']
 ]
 
 import jenkins.*
@@ -18,21 +22,18 @@ def String[] allJobs = jenkins.getAllItems(Job.class).fullName
 def String[] allItems = jenkins.getAllItems(Item.class).fullName
 
 def targetJobs = [
-    'backend/channel-api/test1',
-    'backend/channel-api/test2',
-    'backend/channel-api/test3',
-    'backend/channel-api/test4',
-    'backend/batch/test5',
-    'backend/batch/test6',
-    'backend/common-api/test7'
+    'backend/channel-api/mobile-profiles',
+    'backend/channel-api/mobile-creditcards',
+    'backend/channel-api/mobile-lookup',
+    'backend/channel-api/mobile-otp',
+    'backend/batch/fund-batch',
+    'backend/batch/fund-oa-batch',
+    'backend/common-api/next-localization-service'
 ]
 
 projectFolders.each { projectFolderMap ->
-  def projectFolder = projectFolderMap.getKey()
-  def projectName = projectFolder.split('-')[0] //{projectName -> Ex next}
-  def environment = projectFolder.split('-')[-1] //{env -> Ex : dev}
-  def subJobs = projectFolders[projectFolder] //{subJob -> Ex : Build}
-  println "Starting ${projectFolder}"
+  def environment = projectFolderMap.getKey()
+  def subJobs = projectFolders[environment] //{subJob -> Ex : Build}
   println "projectName : ${projectName}"
   println "enviroment : ${environment}"
   println "Subjob :  ${subJobs}"
@@ -51,15 +52,15 @@ projectFolders.each { projectFolderMap ->
       def repositoryName = job.split('/')[-1]
       println "Start Job :  ${mainFolder}/${serviceType}/${repositoryName}"
       
-      def template = jenkins.getItemByFullName("${projectName}/template-${environment}/pipeline-template")
+      def template = jenkins.getItemByFullName("${projectName}/template-${environment}/pipeline-template/${serviceType}")
       println "template : ${template}"
       
       def targetPath = jenkins.getItemByFullName("${projectName}/${environment}/${mainFolder}/${serviceType}")
       println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
     
       try {
-        jenkins.copy(template, repositoryName)
-        def temp = jenkins.getItemByFullName(repositoryName)
+        jenkins.copy(template, serviceType)
+        def temp = jenkins.getItemByFullName(serviceType)
         Items.move(temp, targetPath)
         println "Created ${projectFolder}/${job}"
         def tempSubJob = jenkins.getItemByFullName("${projectName}/${environment}/${mainFolder}/${serviceType}")
