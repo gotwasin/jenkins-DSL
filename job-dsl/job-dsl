@@ -5,9 +5,9 @@ import hudson.model.*
 
 def projectName = 'next'
 def projectFolders = [
-  	'dev' : ['Build-Deploy'],
-    'sit' : ['Build','Deploy'],
-    'uat' : ['Deploy']
+  	'dev' : 'Build-Deploy',
+    'sit' : 'Build','Deploy',
+    'uat' : 'Deploy'
 ]
 
 import jenkins.*
