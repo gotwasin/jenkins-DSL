@@ -88,27 +88,27 @@ environments.each { environmentsMap ->
       println "subServiceType :  ${subServiceType}"
       println "serviceName :  ${serviceName}"
       
-
-      template = jenkins.getItemByFullName("${projectName}/template-${environment}/Job-template/${subJobs}/pipeline-template")
-      println "templatePath : ${template}"
+      subJobs.each { subJob ->
+        template = jenkins.getItemByFullName("${projectName}/template-${environment}/Job-template/${subJob}/pipeline-template")
+        println "templatePath : ${template}"
+        
+        targetPath = jenkins.getItemByFullName("${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}")
+        println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
       
-      targetPath = jenkins.getItemByFullName("${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}")
-      println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
-    
-      try {
-         
-        jenkins.copy(template, serviceName)
-        temp = jenkins.getItemByFullName(serviceName)
-        Items.move(temp, targetPath)
-        println "Created : ${environmentFolder}/${job}"
-        
-        targetPath.save()
-        
-      } catch (Exception err) {
-        
-        temp = jenkins.getItemByFullName(serviceName)
-        println err.message
-        Items.delete(temp)
+        try {
+          
+          jenkins.copy(template, serviceName)
+          temp = jenkins.getItemByFullName(serviceName)
+          Items.move(temp, targetPath)
+          println "Created : ${environmentFolder}/${job}"
+          targetPath.save()
+          
+        } catch (Exception err) {
+          
+          temp = jenkins.getItemByFullName(serviceName)
+          println err.message
+          Items.delete(temp)
+        }
       }
     } 
   }
