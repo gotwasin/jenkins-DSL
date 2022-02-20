@@ -87,7 +87,8 @@ environments.each { environmentsMap ->
       println "mainServiceType :  ${mainServiceType}"
       println "subServiceType :  ${subServiceType}"
       println "serviceName :  ${serviceName}"
-      for (var i = 0; i < subJob.length; i++)
+
+      for (i = 0; i < subJob.length; i++)
       {
         subJob = subJob.split(',')[i])
         println "Subjob-test : ${subJob}"
