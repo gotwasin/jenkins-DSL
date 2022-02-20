@@ -53,7 +53,7 @@ environments.each { environmentsMap ->
   environment = environmentsMap.getKey() //{environment} -> Ex : dev
   subJobs = environments[environment] //{subJob -> Ex : Build,Deploy,Build-Deploy}
   println "Subjob :  ${subJobs}"
-  subJobs = subJobs.replace(/[\[\]']+/g,'')
+  subJobs = subJobs.replace(/[{}]/g, '')
   environmentFolder = projectName+"-"+environment //{environmentFolder} -> Ex : next-dev
   println "!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   println "projectName : ${projectName}"
