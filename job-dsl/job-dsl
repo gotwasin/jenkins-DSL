@@ -90,7 +90,7 @@ environments.each { environmentsMap ->
       println "subServiceType :  ${subServiceType}"
       println "serviceName :  ${serviceName}"
       println subJobs.length
-      for (i = 0; i < subJobs.length; i++)
+      for (i = 1; i <= subJobs.length; i++)
       {
         subJob = subJobs[i]
         println "template-full : ${projectName}/template-${environment}/Job-template/${subJob}/pipeline-template"
