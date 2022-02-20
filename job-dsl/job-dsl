@@ -33,7 +33,6 @@ def targetJobs = [
 println("Checking Project environment")  
 environments.each { environmentsMap ->
   def environment = environmentsMap.getKey() //{environment} -> Ex : dev
-  def mainServiceType = job.split('/')[0] //{mainServiceType -> Ex : ava-backend}
   def subJobs = environments[environment].join(', ') //{subJob -> Ex : Build,Deploy,Build-Deploy}
   def environmentFolder = projectName+"-"+environment //{environmentFolder} -> Ex : next-dev
   println "!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -47,8 +46,8 @@ environments.each { environmentsMap ->
     println "============================"
     def folderStructure = jenkins.getItemByFullName("${projectName}/template-${environment}/Path-template/batch")
     def tempTargetPath =  jenkins.getItemByFullName(projectName)
-    jenkins.copy(folderStructure, mainServiceType)
-    def tempFolder = jenkins.getItemByFullName(mainServiceType)
+    jenkins.copy(folderStructure, environmentFolder)
+    def tempFolder = jenkins.getItemByFullName(environmentFolder)
     Items.move(tempFolder, tempTargetPath)
   }
 
@@ -71,19 +70,9 @@ environments.each { environmentsMap ->
       println "mainServiceType :  ${mainServiceType}"
       println "subServiceType :  ${subServiceType}"
       println "serviceName :  ${serviceName}"
-
-      // def templateSubFolder = ''
-      // switch (mainServiceType) {
-      // 	case 'frontend':
-      //   	templateSubFolder = 'frontend'
-      //   	break
-      //   default:
-      //   	templateSubFolder = 'microservice'
-      //   	break
-      // }
       
 
-      def template = jenkins.getItemByFullName("${projectName}/pipeline-management/pipeline-template/template-${environment}/${subServiceType}")
+      def template = jenkins.getItemByFullName("${projectName}/template-${environment}/${subJobs}/Job-template/${subJobs}")
       println "templatePath : ${template}"
       
       def targetPath = jenkins.getItemByFullName("${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}")
@@ -96,13 +85,6 @@ environments.each { environmentsMap ->
         Items.move(temp, targetPath)
         println "Created : ${environmentFolder}/${job}"
         
-        // switch (mainServiceType) {
-        //   case 'frontend':
-        //       subJobs = ['Deploy']
-        //       break
-        //   default:
-        //       break
-        // }
         
         subJobs.each { subJob ->
           def tempSubJobPath = "${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${serviceName}/${subJob}"
