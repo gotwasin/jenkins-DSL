@@ -44,7 +44,6 @@ environments.each { environmentsMap ->
   if (jenkins.getItemByFullName("${projectName}/${environmentFolder}") == null) {
     println("Environment folder not found, Creating Folder : ${projectName}/${environmentFolder}")
     println "============================"
-    def folderStructure = jenkins.getItemByFullName("${projectName}/pipeline-management/pipeline-template/folder-structure")
     def folderStructure = jenkins.getItemByFullName("${projectName}/template-${environment}/Path-template")
     def tempTargetPath =  jenkins.getItemByFullName(projectName)
     jenkins.copy(folderStructure, environmentFolder)
