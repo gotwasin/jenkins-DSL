@@ -97,7 +97,7 @@ environments.each { environmentsMap ->
         template = jenkins.getItemByFullName("${projectName}/template-${environment}/Job-template/${subJob}/pipeline-template")
         println "templatePath : ${template}"
         
-        targetPath = jenkins.getItemByFullName("${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}")
+        targetPath = jenkins.getItemByFullName("${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${subJob}")
         println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
       
         try {
