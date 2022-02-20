@@ -52,7 +52,7 @@ println("Checking Project environment")
 environments.each { environmentsMap ->
   environment = environmentsMap.getKey() //{environment} -> Ex : dev
   subJobs = environments[environment] //{subJob -> Ex : Build,Deploy,Build-Deploy}
-  subJobs = subJobs.split(',')
+  subJobs = subJobs.getKey().split(',')
   environmentFolder = projectName+"-"+environment //{environmentFolder} -> Ex : next-dev
   println "!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   println "projectName : ${projectName}"
