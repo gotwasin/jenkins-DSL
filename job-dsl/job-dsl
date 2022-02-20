@@ -21,13 +21,13 @@ def String[] allJobs = jenkins.getAllItems(Job.class).fullName
 def String[] allItems = jenkins.getAllItems(Item.class).fullName
 
 def targetJobs = [
-    'backend/channel-api/mobile-profiles',
-    'backend/channel-api/mobile-creditcards',
-    'backend/channel-api/mobile-lookup',
-    'backend/channel-api/mobile-otp',
-    'backend/batch/fund-batch',
-    'backend/batch/fund-oa-batch',
-    'backend/common-api/next-localization-service'
+    'Java-backend/channel-api/mobile-profiles',
+    'Java-backend/channel-api/mobile-creditcards',
+    'Java-backend/channel-api/mobile-lookup',
+    'Java-backend/channel-api/mobile-otp',
+    'Java-backend/batch/fund-batch',
+    'Java-backend/batch/fund-oa-batch',
+    'Java-backend/common-api/next-localization-service'
 ]
 
 projectFolders.each { projectFolderMap ->
@@ -54,7 +54,7 @@ projectFolders.each { projectFolderMap ->
       def template = jenkins.getItemByFullName("${projectName}/template-${environment}/${subJobs}")
       println "template : ${template}"
       
-      def targetPath = jenkins.getItemByFullName("${projectName}/${environment}/${mainFolder}/${serviceType}")
+      def targetPath = jenkins.getItemByFullName("${projectName}/${environment}/${mainFolder}")
       println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
     
       try {
