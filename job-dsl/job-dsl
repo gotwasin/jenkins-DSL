@@ -30,9 +30,10 @@ def targetJobs = [
     'Java-backend/common-api/next-localization-service'
 ]
 
-println("Checking Project environment")
+println("Checking Project environment")  
 environments.each { environmentsMap ->
   def environment = environmentsMap.getKey() //{environment} -> Ex : dev
+  def mainServiceType = job.split('/')[0] //{mainServiceType -> Ex : ava-backend}
   def subJobs = environments[environment].join(', ') //{subJob -> Ex : Build,Deploy,Build-Deploy}
   def environmentFolder = projectName+"-"+environment //{environmentFolder} -> Ex : next-dev
   println "!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -44,11 +45,11 @@ environments.each { environmentsMap ->
   if (jenkins.getItemByFullName("${projectName}/${environmentFolder}") == null) {
     println("Environment folder not found, Creating Folder : ${projectName}/${environmentFolder}")
     println "============================"
-    def folderStructure = jenkins.getItemByFullName("${projectName}/template-${environment}/Path-template")
+    def folderStructure = jenkins.getItemByFullName("${projectName}/template-${environment}/Path-template/batch")
     def tempTargetPath =  jenkins.getItemByFullName(projectName)
-    jenkins.copy(folderStructure, environmentFolder)
-    def tempFolder = jenkins.getItemByFullName(environmentFolder)
-    
+    jenkins.copy(folderStructure, mainServiceType)
+    def tempFolder = jenkins.getItemByFullName(mainServiceType)
+    Items.move(tempFolder, tempTargetPath)
   }
 
   def existingJobs = allJobs.findAll { job -> job.contains(environmentFolder) }
