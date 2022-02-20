@@ -102,14 +102,7 @@ environments.each { environmentsMap ->
         Items.move(temp, targetPath)
         println "Created : ${environmentFolder}/${job}"
         
-        
-        subJobs.each { subJob ->
-          tempSubJobPath = "${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${serviceName}/${subJob}"
-          tempSubJob = jenkins.getItemByFullName(tempSubJobPath)
-          tempSubJob.save()
-          println "Saved subJob parameter : ${subJob}"
-          println "============================"                                    
-        }
+        targetPath.save()
         
       } catch (Exception err) {
         
