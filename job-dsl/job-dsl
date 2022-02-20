@@ -5,9 +5,9 @@ import hudson.model.*
 
 def projectName = 'next'
 def projectFolders = [
-  	'dev' : 'Build-Deploy',
-    'sit' : 'Build','Deploy',
-    'uat' : 'Deploy'
+  	'dev' : ['Build-Deploy'],
+    'sit' : ['Build','Deploy'],
+    'uat' : ['Deploy']
 ]
 
 import jenkins.*
@@ -32,7 +32,7 @@ def targetJobs = [
 
 projectFolders.each { projectFolderMap ->
   def environment = projectFolderMap.getKey()
-  def subJobs = projectFolders[environment] //{subJob -> Ex : Build}
+  def subJobs = projectFolders[environment].join(', ') //{subJob -> Ex : Build}
   println "projectName : ${projectName}"
   println "enviroment : ${environment}"
   println "Subjob :  ${subJobs}"
