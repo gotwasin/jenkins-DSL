@@ -48,7 +48,7 @@ environments.each { environmentsMap ->
     def tempTargetPath =  jenkins.getItemByFullName(projectName)
     jenkins.copy(folderStructure, environmentFolder)
     def tempFolder = jenkins.getItemByFullName(environmentFolder)
-    Items.move(tempFolder, tempTargetPath)
+    
   }
 
   def existingJobs = allJobs.findAll { job -> job.contains(environmentFolder) }
