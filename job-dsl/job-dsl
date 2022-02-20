@@ -61,7 +61,7 @@ projectFolders.each { projectFolderMap ->
         jenkins.copy(template, serviceType)
         def temp = jenkins.getItemByFullName(serviceType)
         Items.move(temp, targetPath)
-        println "Created ${projectFolder}/${job}"
+        println "Created ${projectName}/${job}"
         def tempSubJob = jenkins.getItemByFullName("${projectName}/${environment}/${mainFolder}/${serviceType}")
         tempSubJob.save()
         println "Saved subJob parameter : ${targetPath}"  
