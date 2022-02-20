@@ -5,6 +5,7 @@ import hudson.model.*
 
 def environment = ''
 def subJobs = ''
+def subJob = ''
 def environmentFolder = ''
 def folderStructure = ''
 def tempTargetPath = ''
@@ -51,6 +52,7 @@ println("Checking Project environment")
 environments.each { environmentsMap ->
   environment = environmentsMap.getKey() //{environment} -> Ex : dev
   subJobs = environments[environment].join(', ') //{subJob -> Ex : Build,Deploy,Build-Deploy}
+  subJob = subJobs.split(',')
   environmentFolder = projectName+"-"+environment //{environmentFolder} -> Ex : next-dev
   println "!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   println "projectName : ${projectName}"
@@ -88,10 +90,10 @@ environments.each { environmentsMap ->
       println "subServiceType :  ${subServiceType}"
       println "serviceName :  ${serviceName}"
 
-      for (i = 0; i < subJobs.length; i++)
+      for (i = 0; i < subJob.length; i++)
       {
-        subJobs = subJobs.split(',')[i]
-        println "Subjob-test : ${subJobs}"
+        subJob = subJob.split(',')[i]
+        println "Subjob-test : ${subJob}"
         template = jenkins.getItemByFullName("${projectName}/template-${environment}/Job-template/${subJob}/pipeline-template")
         println "templatePath : ${template}"
         
