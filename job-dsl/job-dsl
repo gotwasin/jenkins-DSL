@@ -89,6 +89,7 @@ environments.each { environmentsMap ->
       println "serviceName :  ${serviceName}"
       
       subJobs.each { subJob ->
+        println "Subjob-test :  ${subJob}"
         template = jenkins.getItemByFullName("${projectName}/template-${environment}/Job-template/${subJob}/pipeline-template")
         println "templatePath : ${template}"
         
