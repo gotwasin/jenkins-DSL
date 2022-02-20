@@ -50,7 +50,7 @@ def targetJobs = [
 println("Checking Project environment")  
 environments.each { environmentsMap ->
   environment = environmentsMap.getKey() //{environment} -> Ex : dev
-  subJobs = environments[environment] //{subJob -> Ex : Build,Deploy,Build-Deploy}
+  subJobs = environments[environment].split(',') //{subJob -> Ex : Build,Deploy,Build-Deploy}
   environmentFolder = projectName+"-"+environment //{environmentFolder} -> Ex : next-dev
   println "!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   println "projectName : ${projectName}"
@@ -90,7 +90,7 @@ environments.each { environmentsMap ->
 
       for (i = 0; i < subJob.length; i++)
       {
-        subJob = subJob.split(',')[i])
+        subJob = subJob[i])
         println "Subjob-test : ${subJob}"
         template = jenkins.getItemByFullName("${projectName}/template-${environment}/Job-template/${subJob}/pipeline-template")
         println "templatePath : ${template}"
