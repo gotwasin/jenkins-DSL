@@ -93,10 +93,11 @@ environments.each { environmentsMap ->
       for (i = 0; i < subJobs.length; i++)
       {
         subJob = subJobs[i]
-        println "Subjob-test : ${subJob}"
+        println "template-full : ${projectName}/template-${environment}/Job-template/${subJob}/pipeline-template"
         template = jenkins.getItemByFullName("${projectName}/template-${environment}/Job-template/${subJob}/pipeline-template")
         println "templatePath : ${template}"
         
+        println "target-full : ${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${subJob}"
         targetPath = jenkins.getItemByFullName("${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${subJob}")
         println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
       
