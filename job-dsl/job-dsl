@@ -5,7 +5,6 @@ import hudson.model.*
 
 def environment = ''
 def subJobs = ''
-def subJob = ''
 def environmentFolder = ''
 def folderStructure = ''
 def tempTargetPath = ''
