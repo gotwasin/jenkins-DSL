@@ -3,6 +3,23 @@ import jenkins.model.*
 import hudson.*
 import hudson.model.*
 
+def environment ''
+def subJobs = ''
+def environmentFolder = ''
+def folderStructure = ''
+def tempTargetPath = ''
+def tempFolder = ''
+def existingJobs = ''
+def existingItems = ''
+def mainServiceType = ''
+def subServiceType = ''
+def serviceName = ''
+def template = ''
+def targetPath = ''
+def temp = ''
+def tempSubJobPath = ''
+def tempSubJob = ''
+
 def projectName = 'next'
 def environments = [
   	'dev' : ['Build-Deploy'],
@@ -32,9 +49,9 @@ def targetJobs = [
 
 println("Checking Project environment")  
 environments.each { environmentsMap ->
-  def environment = environmentsMap.getKey() //{environment} -> Ex : dev
-  def subJobs = environments[environment].join(', ') //{subJob -> Ex : Build,Deploy,Build-Deploy}
-  def environmentFolder = projectName+"-"+environment //{environmentFolder} -> Ex : next-dev
+  environment = environmentsMap.getKey() //{environment} -> Ex : dev
+  subJobs = environments[environment].join(', ') //{subJob -> Ex : Build,Deploy,Build-Deploy}
+  environmentFolder = projectName+"-"+environment //{environmentFolder} -> Ex : next-dev
   println "!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   println "projectName : ${projectName}"
   println "environment : ${environment}"
@@ -44,15 +61,15 @@ environments.each { environmentsMap ->
   if (jenkins.getItemByFullName("${projectName}/${environmentFolder}") == null) {
     println("Environment folder not found, Creating Folder : ${projectName}/${environmentFolder}")
     println "============================"
-    def folderStructure = jenkins.getItemByFullName("${projectName}/template-${environment}/Path-template")
-    def tempTargetPath =  jenkins.getItemByFullName(projectName)
+    folderStructure = jenkins.getItemByFullName("${projectName}/template-${environment}/Path-template")
+    tempTargetPath =  jenkins.getItemByFullName(projectName)
     jenkins.copy(folderStructure, environmentFolder)
-    def tempFolder = jenkins.getItemByFullName(environmentFolder)
+    tempFolder = jenkins.getItemByFullName(environmentFolder)
     Items.move(tempFolder, tempTargetPath)
   }
 
-  def existingJobs = allJobs.findAll { job -> job.contains(environmentFolder) }
-  def existingItems = allItems.findAll { job -> job.contains(environmentFolder)}
+  existingJobs = allJobs.findAll { job -> job.contains(environmentFolder) }
+  existingItems = allItems.findAll { job -> job.contains(environmentFolder)}
   println "existingJobs :  ${existingJobs}"
   println "============================"          
   println "existingItems :  ${existingItems}"
@@ -62,9 +79,9 @@ environments.each { environmentsMap ->
 
     if(!existingJobs.any { existingJob -> existingJob.contains(job) } ) {
       
-      def mainServiceType = job.split('/')[0] //{mainServiceType -> Ex : backend}
-      def subServiceType = job.split('/')[1] //{subServiceType -> Ex : channel-api}
-      def serviceName = job.split('/')[-1] //{subServiceType -> Ex : channel-api}
+      mainServiceType = job.split('/')[0] //{mainServiceType -> Ex : backend}
+      subServiceType = job.split('/')[1] //{subServiceType -> Ex : channel-api}
+      serviceName = job.split('/')[-1] //{subServiceType -> Ex : channel-api}
       println "Environment Folder :  ${environmentFolder}"
       println "Starting Job :  ${mainServiceType}/${subServiceType}/${serviceName}"
       println "mainServiceType :  ${mainServiceType}"
@@ -72,23 +89,23 @@ environments.each { environmentsMap ->
       println "serviceName :  ${serviceName}"
       
 
-      def template = jenkins.getItemByFullName("${projectName}/template-${environment}/Job-template/${subJobs}/pipeline-template")
+      template = jenkins.getItemByFullName("${projectName}/template-${environment}/Job-template/${subJobs}/pipeline-template")
       println "templatePath : ${template}"
       
-      def targetPath = jenkins.getItemByFullName("${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}")
+      targetPath = jenkins.getItemByFullName("${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}")
       println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
     
       try {
          
         jenkins.copy(template, serviceName)
-        def temp = jenkins.getItemByFullName(serviceName)
+        temp = jenkins.getItemByFullName(serviceName)
         Items.move(temp, targetPath)
         println "Created : ${environmentFolder}/${job}"
         
         
         subJobs.each { subJob ->
-          def tempSubJobPath = "${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${serviceName}/${subJob}"
-          def tempSubJob = jenkins.getItemByFullName(tempSubJobPath)
+          tempSubJobPath = "${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${serviceName}/${subJob}"
+          tempSubJob = jenkins.getItemByFullName(tempSubJobPath)
           tempSubJob.save()
           println "Saved subJob parameter : ${subJob}"
           println "============================"                                    
@@ -96,7 +113,7 @@ environments.each { environmentsMap ->
         
       } catch (Exception err) {
         
-        def temp = jenkins.getItemByFullName(serviceName)
+        temp = jenkins.getItemByFullName(serviceName)
         println err.message
         
         
