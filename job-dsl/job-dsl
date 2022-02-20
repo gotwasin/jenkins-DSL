@@ -89,7 +89,7 @@ environments.each { environmentsMap ->
       println "mainServiceType :  ${mainServiceType}"
       println "subServiceType :  ${subServiceType}"
       println "serviceName :  ${serviceName}"
-
+      println subJobs.length
       for (i = 0; i < subJobs.length; i++)
       {
         subJob = subJobs[i]
