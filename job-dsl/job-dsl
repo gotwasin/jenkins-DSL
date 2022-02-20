@@ -3,7 +3,7 @@ import jenkins.model.*
 import hudson.*
 import hudson.model.*
 
-def environment ''
+def environment = ''
 def subJobs = ''
 def environmentFolder = ''
 def folderStructure = ''
