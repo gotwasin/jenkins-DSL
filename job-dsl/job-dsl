@@ -115,8 +115,7 @@ environments.each { environmentsMap ->
         
         temp = jenkins.getItemByFullName(serviceName)
         println err.message
-        
-        
+        Items.delete(temp)
       }
     } 
   }
