@@ -72,7 +72,7 @@ environments.each { environmentsMap ->
       println "serviceName :  ${serviceName}"
       
 
-      def template = jenkins.getItemByFullName("${projectName}/template-${environment}/Job-template/${subJobs}")
+      def template = jenkins.getItemByFullName("${projectName}/template-${environment}/Job-template/${subJobs}/pipeline-template")
       println "templatePath : ${template}"
       
       def targetPath = jenkins.getItemByFullName("${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}")
