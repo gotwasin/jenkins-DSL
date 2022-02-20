@@ -23,7 +23,7 @@ def tempSubJob = ''
 def projectName = 'next'
 def environments = [
   	'dev' : ['Build-Deploy'],
-    'sit' : ['Build','Deploy'],
+    'sit' : ['Build,Deploy'],
     'uat' : ['Deploy']
 ]
 
