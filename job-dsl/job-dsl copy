@@ -1,0 +1,81 @@
+import jenkins.*
+import jenkins.model.*
+import hudson.*
+import hudson.model.*
+
+def projectName = 'next'
+def projectFolders = [
+  	'dev' : ['Build-Deploy'],
+    'sit' : ['Build','Deploy'],
+    'uat' : ['Deploy']
+]
+
+import jenkins.*
+import jenkins.model.*
+import hudson.*
+import hudson.model.*
+
+jenkins = Jenkins.instance
+
+def String[] allJobs = jenkins.getAllItems(Job.class).fullName
+def String[] allItems = jenkins.getAllItems(Item.class).fullName
+
+def targetJobs = [
+    'Java-backend/channel-api/mobile-profiles',
+    'Java-backend/channel-api/mobile-creditcards',
+    'Java-backend/channel-api/mobile-lookup',
+    'Java-backend/channel-api/mobile-otp',
+    'Java-backend/batch/fund-batch',
+    'Java-backend/batch/fund-oa-batch',
+    'Java-backend/common-api/next-localization-service'
+]
+
+projectFolders.each { projectFolderMap ->
+  def environment = projectFolderMap.getKey()
+  def subJobs = projectFolders[environment].join(', ') //{subJob -> Ex : Build}
+  println "projectName : ${projectName}"
+  println "enviroment : ${environment}"
+  println "Subjob :  ${subJobs}"
+
+  def existingJobs = allJobs.findAll { job -> job.contains(projectName) }
+  def existingItems = allItems.findAll { job -> job.contains(projectName)}
+  println "existingJobs :  ${existingJobs}"
+  println "existingItems :  ${existingItems}"
+  
+  targetJobs.each { job ->
+
+    if(!existingJobs.any { existingJob -> existingJob.contains(job) } ) {
+      
+      def mainFolder = job.split('/')[0] //{mainType -> Ex : backend}
+      def serviceType = job.split('/')[1]
+      def repositoryName = job.split('/')[-1]
+      println "Start Job :  ${mainFolder}/${serviceType}/${repositoryName}"
+      
+      def template = jenkins.getItemByFullName("${projectName}/template-${environment}/${subJobs}")
+      println "all : ${projectName}/${environment}/${mainFolder}/${serviceType}"
+      def jobName = jenkins.getItemByFullName("${projectName}/${environment}/${mainFolder}/${serviceType}")
+      println "template : ${template}"
+      println "jobname : ${jobName}"
+      
+      def targetPath = jenkins.getItemByFullName("${projectName}/${environment}/${mainFolder}")
+      println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
+    
+      try {
+        jenkins.copy(template, serviceType)
+        def temp = jenkins.getItemByFullName(serviceType)
+        Items.move(temp, targetPath)
+        println "Created ${projectName}/${job}"
+        def tempSubJob = jenkins.getItemByFullName("${projectName}/${environment}/${mainFolder}/${serviceType}")
+        tempSubJob.save()
+        println "Saved subJob parameter : ${targetPath}"  
+        
+      } catch (Exception err) {
+        
+        def temp = jenkins.getItemByFullName(repositoryName)
+        println err.message
+        Items.delete(temp)
+        
+      }
+    } 
+  }
+}
