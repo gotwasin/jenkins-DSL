@@ -52,6 +52,7 @@ projectFolders.each { projectFolderMap ->
       println "Start Job :  ${mainFolder}/${serviceType}/${repositoryName}"
       
       def template = jenkins.getItemByFullName("${projectName}/template-${environment}/${subJobs}")
+      println "all : ${projectName}/${environment}/${mainFolder}/${serviceType}"
       def jobName = jenkins.getItemByFullName("${projectName}/${environment}/${mainFolder}/${serviceType}")
       println "template : ${template}"
       println "jobname : ${jobName}"
