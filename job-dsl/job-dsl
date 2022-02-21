@@ -22,8 +22,8 @@ def tempSubJob = ''
 
 def projectName = 'next'
 def environments = [
-  	'dev' : ['Build-Deploy'],
-    'sit' : ['Build,Deploy'],
+  	// 'dev' : ['Build-Deploy'],
+    // 'sit' : ['Build,Deploy'],
     'uat' : ['Deploy']
 ]
 
@@ -106,7 +106,6 @@ environments.each { environmentsMap ->
 
           tempSubJobPath = "${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${subJob}/${serviceName}"
           tempSubJob = jenkins.getItemByFullName(tempSubJobPath)
-          println "tempSubJob : tempSubJob"
           tempSubJob.save()
           println "============================"
           
