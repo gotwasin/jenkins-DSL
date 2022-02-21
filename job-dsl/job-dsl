@@ -89,13 +89,13 @@ environments.each { environmentsMap ->
       println "subServiceType :  ${subServiceType}"
       println "serviceName :  ${serviceName}"
       subJobs.each { subJob ->
-        println "template-full : ${projectName}/template-${environment}/Job-template/${subJob}/pipeline-template"
+        // println "template-full : ${projectName}/template-${environment}/Job-template/${subJob}/pipeline-template"
         template = jenkins.getItemByFullName("${projectName}/template-${environment}/Job-template/${subJob}/pipeline-template")
-        println "templatePath : ${template}"
+        // println "templatePath : ${template}"
         
-        println "target-full : ${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${subJob}"
+        // println "target-full : ${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${subJob}"
         targetPath = jenkins.getItemByFullName("${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${subJob}")
-        println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
+        // println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
       
         try {
           
@@ -108,6 +108,7 @@ environments.each { environmentsMap ->
           tempSubJob = jenkins.getItemByFullName(tempSubJobPath)
           println "tempSubJob : tempSubJob"
           tempSubJob.save()
+          println "============================"
           
         } catch (Exception err) {
           
