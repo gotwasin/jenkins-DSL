@@ -2,6 +2,7 @@ import jenkins.*
 import jenkins.model.*
 import hudson.*
 import hudson.model.*
+jenkins = Jenkins.instance
 
 def environment = ''
 def subJobs = ''
@@ -26,17 +27,8 @@ def environments = [
     'sit' : ['Build,Deploy'],
     'uat' : ['Deploy']
 ]
-
-import jenkins.*
-import jenkins.model.*
-import hudson.*
-import hudson.model.*
-
-jenkins = Jenkins.instance
-
 def String[] allJobs = jenkins.getAllItems(Job.class).fullName
 def String[] allItems = jenkins.getAllItems(Item.class).fullName
-
 def targetJobs = [
     'Java-backend/channel-api/mobile-profiles',
     'Java-backend/channel-api/mobile-creditcards',
