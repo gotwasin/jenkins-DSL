@@ -104,8 +104,8 @@ environments.each { environmentsMap ->
           Items.move(temp, targetPath)
           println "Created : ${environmentFolder}/${job}"
 
-          def tempSubJobPath = "${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${subJob}/${serviceName}"
-          def tempSubJob = jenkins.getItemByFullName(tempSubJobPath)
+          tempSubJobPath = "${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${subJob}/${serviceName}"
+          tempSubJob = jenkins.getItemByFullName(tempSubJobPath)
           println "tempSubJob : tempSubJob"
           tempSubJob.save()
           
